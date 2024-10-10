@@ -2,7 +2,7 @@ app_name = "estate_app"
 app_title = "Estate App"
 app_publisher = "sigzen"
 app_description = "an app for real estate listing"
-app_email = "sigzen@email.com"
+app_email = "sigzen@gmail.com"
 app_license = "mit"
 
 # Apps

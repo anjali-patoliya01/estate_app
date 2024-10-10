@@ -1,7 +1,7 @@
 [project]
 name = "estate_app"
 authors = [
-    { name = "sigzen", email = "sigzen@email.com"}
+    { name = "sigzen", email = "sigzen@gmail.com"}
 ]
 description = "an app for real estate listing"
 requires-python = ">=3.10"
