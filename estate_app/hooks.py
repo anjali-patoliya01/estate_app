@@ -1,3 +1,6 @@
+from .route import routes
+
+
 app_name = "estate_app"
 app_title = "Estate App"
 app_publisher = "sigzen"
@@ -29,7 +32,7 @@ app_license = "mit"
 # app_include_js = "/assets/estate_app/js/estate_app.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/estate_app/css/estate_app.css"
+web_include_css = "/assets/estate_app/css/custom_web.css"
 # web_include_js = "/assets/estate_app/js/estate_app.js"
 
 # include custom scss in every website theme (without file extension ".scss")
@@ -57,12 +60,14 @@ app_license = "mit"
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+# home_page = "property/index"  x
 
 # website user home page (by Role)
 # role_home_page = {
 # 	"Role": "home_page"
 # }
+
+website_route_rules = routes
 
 # Generators
 # ----------
@@ -73,11 +78,31 @@ app_license = "mit"
 # Jinja
 # ----------
 
+
 # add methods and filters to jinja environment
 # jinja = {
 # 	"methods": "estate_app.utils.jinja_methods",
 # 	"filters": "estate_app.utils.jinja_filters"
 # }
+
+# hooks.py
+jinja = {
+    "methods": [
+        "estate_app.jinja.methods",
+        "estate_app.utils.get_fullname"
+    ],
+    "filters": [
+        "estate_app.jinja.filters",
+        "estate_app.utils.format_currency"
+    ]
+}
+
+
+
+doctype_list_js = {
+    "Property": "public/js/property_list.js"
+}
+
 
 # Installation
 # ------------
@@ -129,21 +154,29 @@ app_license = "mit"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	# "ToDo": "custom_app.overrides.CustomToDo"
+    'Sales Invoice':'estate_app.overrides.override_sales_invoice.SalesInvoiceCustom'
+
+}
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	# "*": {
+	# 	"on_update": "method",
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# }
+    'Property':{
+        # 'validate': 'estate_app.estate_app.doctype.property.events.validate',
+        # 'on_update': 'estate_app.estate_app.doctype.property.events.on_update',
+        'after_insert' : 'estate_app.estate_app.doctype.property.events.after_insert',
+        # 'on_submit':'estate_app.estate_app.doctype.property.utils.sendmail',
+    } 
+}
 
 # Scheduled Tasks
 # ---------------
@@ -174,9 +207,10 @@ app_license = "mit"
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "estate_app.event.get_events"
-# }
+override_whitelisted_methods = {
+	# "frappe.desk.doctype.event.event.get_events": "estate_app.event.get_events"
+    'frappe.www.index' : 'estate_app.wwww.property.index'
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
